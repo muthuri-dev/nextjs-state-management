@@ -9,4 +9,4 @@ interface Counter {
 export const useCounter = create<Counter>()(persist((set) => ({
     count: 0,
     increaseCount: (by) => set((state) => ({count: state.count + by}))
-}), {name: "count"}))
+}), {name: "count"}));
