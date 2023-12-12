@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {immer} from "zustand/middleware/immer";
 import {createSelectors} from "@/utils/createSelectors";
+import {devtools, persist} from "zustand/middleware";
 
 type TCartStoreState = {
     cats: {
@@ -14,7 +15,7 @@ type TCartStoreState = {
     summary: () => void
 }
 
-export const useCartStore = createSelectors(create<TCartStoreState>()(immer((set,get) => ({
+export const useCartStore = createSelectors(create<TCartStoreState>()(immer(devtools(persist((set, get) => ({
     cats: {
         bigCats: 0,
         smallCats: 0
@@ -30,8 +31,8 @@ export const useCartStore = createSelectors(create<TCartStoreState>()(immer((set
             state.cats.smallCats++
         }
     ),
-    summary:()=>{
+    summary: () => {
         const totalCats = get().cats.bigCats + get().cats.smallCats;
         return `There are ${totalCats} cats`
     }
-}))))
+}),{name:"cats store"})))))
